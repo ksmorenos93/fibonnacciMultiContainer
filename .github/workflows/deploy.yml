@@ -16,7 +16,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       # here ksmorenos is my Docker Hub credential, and react-test is the name I
       # give to the image,  ./client/Dockerfile.dev (the place where the Dockerfile is located) ./client is the context folder
       - name: Build React test image
