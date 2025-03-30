@@ -19,7 +19,7 @@ jobs:
       # here ksmorenos is my Docker Hub credential, and react-test is the name I
       # give to the image,  ./client/Dockerfile.dev (the place where the Dockerfile is located) ./client is the context folder
       - name: Build React test image
-        run: docker build --no-cache -t ksmorenos/react-test -f ./client/Dockerfile.dev ./client
+        run: docker build  -t ksmorenos/react-test -f ./client/Dockerfile.dev ./client
 
       ## after the image is created then I run the image and the container, and run npm test to execute the test of our React app.
       - name: Run React tests
