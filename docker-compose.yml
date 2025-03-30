@@ -42,8 +42,7 @@ services:
       - PGPORT=5432
     networks:
       - mynetwork
-      
-
+    
   client: 
     build:
       context: ./client 
