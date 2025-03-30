@@ -3,4 +3,5 @@ WORKDIR '/app'
 COPY ./package.json ./
 RUN npm install
 COPY . .
+RUN npm install react-router-dom@6
 CMD ["npm", "run", "start"]
