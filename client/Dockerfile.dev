@@ -1,9 +1,6 @@
 FROM node:18-alpine
-WORKDIR "/app"
-copy ./package.json ./
+WORKDIR '/app'
+COPY ./package.json ./
 RUN npm install
 COPY . .
-# Install react-router-dom explicitly
-RUN npm install react-router-dom@6
-
 CMD ["npm", "run", "start"]
