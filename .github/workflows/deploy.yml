@@ -55,19 +55,19 @@ jobs:
         run: docker push ksmorenos/multi-worker
 
 
-      # # Generate a deployment package of the application to be uploaded to AWS Elastic Beanstalk
-      # - name: Generate deployment package
-      #   run: zip -r deploy.zip . -x '*.git*'
+      # Generate a deployment package of the application to be uploaded to AWS Elastic Beanstalk
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
 
-      # # Deploy the  containers to AWS Elastic Beanstalk
-      # - name: Deploy Frontend to EB
-      #   uses: einaregilsson/beanstalk-deploy@v18
-      #   with:
-      #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     application_name: frontend
-      #     environment_name: Frontend-env
-      #     existing_bucket_name: elasticbeanstalk-us-east-1-992382504356
-      #     region: us-east-1
-      #     version_label: ${{ github.sha }}
-      #     deployment_package: deploy.zip  ## the name of the deployment package created after running 
+      # Deploy the  containers to AWS Elastic Beanstalk
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY}}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: multi-docker
+          environment_name: Multi-docker-env
+          existing_bucket_name: elasticbeanstalk-us-east-1-992382692319
+          region: us-east-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip  ## the name of the deployment package created after running 

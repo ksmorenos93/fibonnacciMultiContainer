@@ -1,0 +1,81 @@
+version: '3'
+services:
+  postgres:  #name of the services
+    image: 'postgres:latest' # comes from dockerhub
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+    networks:
+      - mynetwork
+  redis:
+    image: 'redis:latest'
+    networks:
+      - mynetwork
+  nginx: # this is a router or  a proxi
+    restart: always # this is routing everythin that is why i need it always running
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3050:80'
+    depends_on: 
+      - api
+      - client
+    networks:
+      - mynetwork
+
+  api:
+    build:
+      context: ./api # '.'(look in the current working directory) find there the "/server" folder
+      dockerfile: Dockerfile.dev # we specify only the name not the folder
+    volumes: # everythin relevant to us in inside the app folder in the container
+      - /app/node_modules  # do not override this folder, just leave it as it is.
+      - ./api:/app # use a reference to ./server when we want to access /app in the container except from node_modules
+    ports:
+      - "5000:5000"  # Add this line to expose the port
+    environment: 
+      - REDIS_HOST=redis # the name of the service
+      - REDIS_PORT=6379 # needed to connect to redis
+      - PGUSER=postgres # necessary to connect to postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+    networks:
+      - mynetwork
+    
+  client: 
+    build:
+      context: ./client 
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./client:/app ## everything inside client should be shared with /app folder
+    environment:
+    - WDS_SOCKET_PORT=3050
+    networks:
+      - mynetwork
+  worker: 
+    build:
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - ./worker:/app
+    environment:
+      - WDS_SOCKET_PORT=0
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+
+networks:
+    mynetwork:
+
+    
+    
+
+
+
+  
