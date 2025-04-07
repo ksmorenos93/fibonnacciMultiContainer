@@ -43,7 +43,7 @@ const OtherPage = () => {
   return (
     <div style={containerStyle}>
       <div style={titleStyle}>Administración El Duruelo</div>
-      <div style={subtitleStyle}>Primera Página</div>
+      <div style={subtitleStyle}>Administradores Kevin y Paola</div>
       <Link
         to="/"
         style={linkStyle}
